@@ -1,0 +1,5 @@
+{
+  "sketch": "commandlinksniff2/commandlinksniff2.ino",
+  "fqbn": "esp32:esp32:esp32",
+  "output": ".vscode/arduino-build"
+}

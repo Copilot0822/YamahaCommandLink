@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Arduino: Refresh IntelliSense",
+      "type": "shell",
+      "command": "C:\\Program Files\\Arduino CLI\\arduino-cli.exe",
+      "args": [
+        "compile",
+        "--fqbn",
+        "esp32:esp32:esp32",
+        "--only-compilation-database",
+        "--build-path",
+        ".vscode\\arduino-build",
+        "commandlinksniff2"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

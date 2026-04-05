@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.ino": "cpp"
+  },
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/.vscode/arduino-build/compile_commands.json",
+  "arduino.useArduinoCli": true,
+  "arduino.commandPath": "C:\\Program Files\\Arduino CLI\\arduino-cli.exe"
+}
