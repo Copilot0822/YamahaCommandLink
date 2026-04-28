@@ -1,5 +1,5 @@
 {
-  "sketch": "commandlinksniff2/commandlinksniff2.ino",
-  "fqbn": "esp32:esp32:esp32",
+  "sketch": "commandlinkdash7/commandlinkdash7.ino",
+  "fqbn": "esp32:esp32:waveshare_esp32_s3_touch_lcd_7:FlashSize=8M,PartitionScheme=huge_app,PSRAM=enabled,CDCOnBoot=cdc",
   "output": ".vscode/arduino-build"
 }

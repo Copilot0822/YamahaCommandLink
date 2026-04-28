@@ -1,0 +1,34 @@
+C:\Users\copil\Documents\GitHub\YamahaCommandLink\.vscode\arduino-build\libraries\lvgl\misc\lv_anim.c.o: \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_anim.c \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_anim.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_internal.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_kconfig.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/qio_opi/include/sdkconfig.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/esp_common/include/esp_attr.h \
+ C:\Users\copil\Documents\GitHub\YamahaCommandLink\commandlinkdash7/lv_conf.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/hal/lv_hal_tick.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_internal.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_assert.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_log.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_types.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_mem.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_timer.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_math.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_gc.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\misc\lv_ll.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/draw/lv_img_cache.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/draw/lv_img_decoder.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_internal.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/draw/lv_img_buf.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_color.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_internal.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_assert.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_math.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_types.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_area.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_fs.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_types.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/draw/lv_draw_mask.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_math.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/core/lv_obj_pos.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_area.h

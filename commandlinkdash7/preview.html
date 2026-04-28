@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yamaha Command Link Dash Preview</title>
+  <style>
+    :root {
+      --bg-top: #0e3855;
+      --bg-bottom: #04131f;
+      --panel: #0a2235;
+      --panel-edge: #2c5c78;
+      --text-primary: #f7fcff;
+      --text-muted: #9ec3d7;
+      --status-good: #9fe870;
+      --status-warn: #ffc548;
+      --trim-accent: #3ae0d0;
+      --fuel-accent: #ffb347;
+      --card-accent: #1d4861;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Bahnschrift, "Franklin Gothic Medium", "Arial Narrow", sans-serif;
+      background: #c4d0d8;
+      color: var(--text-primary);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .preview-shell {
+      display: grid;
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .screen-frame {
+      position: relative;
+      width: min(100%, 1200px);
+      aspect-ratio: 800 / 480;
+      background: #10171d;
+      border-radius: 32px;
+      padding: 18px;
+      box-shadow: 0 28px 70px rgba(17, 28, 37, 0.34);
+    }
+
+    .screen-bezel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 22px;
+      background: #07111a;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      transition: opacity 240ms ease;
+    }
+
+    .screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash {
+      background: #f2f4f5;
+      display: grid;
+      place-items: center;
+    }
+
+    .splash-inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .badge {
+      width: 134px;
+      height: 134px;
+      border-radius: 50%;
+      background: #dadde0;
+      border: 4px solid #b7322b;
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.3);
+    }
+
+    .badge-inner {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: #f4f5f6;
+      border: 1px solid #a3a8ad;
+      position: relative;
+    }
+
+    .tuning-fork {
+      position: absolute;
+      inset: 0;
+    }
+
+    .fork-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: center top;
+      background: #55585d;
+      border-radius: 99px;
+    }
+
+    .fork-a {
+      width: 6px;
+      height: 38px;
+      transform: translate(-50%, -82%);
+    }
+
+    .fork-b,
+    .fork-c {
+      width: 8px;
+      height: 34px;
+      top: 41%;
+    }
+
+    .fork-b {
+      transform: translate(-50%, -50%) rotate(-64deg);
+    }
+
+    .fork-c {
+      transform: translate(-50%, -50%) rotate(64deg);
+    }
+
+    .fork-d,
+    .fork-e {
+      width: 28px;
+      height: 5px;
+      top: 63%;
+    }
+
+    .fork-d {
+      transform: translate(-150%, -50%) rotate(20deg);
+    }
+
+    .fork-e {
+      transform: translate(50%, -50%) rotate(-20deg);
+    }
+
+    .brand-block {
+      display: grid;
+      gap: 10px;
+    }
+
+    .yamaha-wordmark {
+      margin: 0;
+      color: #e12621;
+      font-size: 46px;
+      line-height: 0.9;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .splash-subtitle {
+      margin: 0;
+      color: #3f5564;
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dash {
+      background: var(--bg-bottom);
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: 136px 620px;
+      gap: 12px;
+    }
+
+    .panel {
+      border-radius: 20px;
+      border: 2px solid var(--panel-edge);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .trim-panel {
+      padding: 14px 10px 16px;
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .trim-title {
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    .trim-value {
+      font-size: 28px;
+      color: var(--trim-accent);
+      margin-bottom: 8px;
+    }
+
+    .trim-bar-shell {
+      position: relative;
+      width: 48px;
+      height: 286px;
+      border-radius: 24px;
+      border: 2px solid #35627a;
+      background: #14384c;
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    .trim-bar-fill {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 0%;
+      background: var(--trim-accent);
+      transition: height 220ms ease;
+    }
+
+    .trim-secondary-tick {
+      position: absolute;
+      width: 72px;
+      height: 4px;
+      left: 50%;
+      background: var(--fuel-accent);
+      border-radius: 999px;
+      transform: translateX(-50%);
+    }
+
+    .main-panel {
+      padding: 14px 16px 16px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      background: var(--panel);
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .status-chip {
+      min-width: 170px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--status-warn);
+      color: #1c242b;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .source-text {
+      color: var(--text-muted);
+      font-size: 14px;
+      letter-spacing: 0.06em;
+    }
+
+    .section-label {
+      color: var(--text-muted);
+      font-size: 20px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .dashboard-core {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr) 118px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .tach-wide {
+      grid-column: 1 / -1;
+      text-align: center;
+      position: relative;
+      height: 112px;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding-top: 4px;
+    }
+
+    .center-stack {
+      min-width: 0;
+    }
+
+    .rpm-block {
+      text-align: center;
+      margin-top: 2px;
+      position: relative;
+      height: 110px;
+    }
+
+    .rpm-gauge {
+      width: 100%;
+      height: 92px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .rpm-scale {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 54px;
+    }
+
+    .rpm-tick {
+      position: absolute;
+      top: 30px;
+      width: 2px;
+      height: 13px;
+      background: rgba(255, 255, 255, 0.42);
+      border-radius: 999px;
+    }
+
+    .rpm-tick.major {
+      top: 24px;
+      width: 3px;
+      height: 18px;
+      background: #f7fcff;
+    }
+
+    .rpm-tick.red {
+      background: #f1685f;
+    }
+
+    .rpm-scale-label {
+      position: absolute;
+      top: 4px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .rpm-scale-label.red {
+      color: #f1685f;
+    }
+
+    .rpm-track-shell {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 62px;
+      height: 24px;
+      border-radius: 999px;
+      border: 2px solid #2c5c78;
+      background: #14384c;
+      overflow: hidden;
+      box-shadow: inset 0 3px 8px rgba(255, 255, 255, 0.06);
+    }
+
+    .rpm-track-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      background: #3ec8f5;
+      transition: width 220ms ease;
+    }
+
+    .rpm-track-redline {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 10%;
+      background: #ff795d;
+      opacity: 0.95;
+    }
+
+    .rpm-value {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      font-size: 42px;
+      line-height: 0.9;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      text-shadow: 0 8px 24px rgba(255, 255, 255, 0.08);
+    }
+
+    .rpm-unit {
+      position: absolute;
+      left: 50%;
+      top: 68px;
+      transform: translateX(-50%);
+      color: var(--text-muted);
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .fuel-block {
+      text-align: center;
+      margin-top: 22px;
+    }
+
+    .fuel-label {
+      margin-top: 8px;
+    }
+
+    .fuel-value {
+      margin-top: 10px;
+      font-size: 34px;
+      line-height: 0.95;
+      color: var(--fuel-accent);
+      font-weight: 800;
+      text-shadow: 0 8px 18px rgba(255, 179, 71, 0.14);
+    }
+
+    .fuel-unit {
+      margin-top: 4px;
+      color: var(--fuel-accent);
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .metric-card {
+      min-height: 82px;
+      border-radius: 20px;
+      border: 2px solid var(--panel-edge);
+      padding: 10px 12px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      transition: background-image 220ms ease, background-color 220ms ease;
+    }
+
+    .metric-card .label {
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .metric-card .value {
+      margin-top: 18px;
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .metric-card.volts { background-color: #104a56; }
+    .metric-card.coolant { background-color: #5e4a16; }
+    .metric-card.hours { background-color: #523911; }
+    .metric-card.network { background-color: #1d4861; }
+    .metric-card.age { background-color: #3a4e6c; }
+    .metric-card.source { background-color: #305c56; }
+
+    .control-panel {
+      width: min(100%, 1200px);
+      display: grid;
+      grid-template-columns: repeat(6, minmax(100px, 1fr));
+      gap: 12px 16px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(7, 20, 30, 0.82);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(10px);
+    }
+
+    .control {
+      display: grid;
+      gap: 6px;
+      color: #10212c;
+    }
+
+    .control label {
+      color: #dbe7ee;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .control input,
+    .control select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      padding: 10px 12px;
+      font: inherit;
+    }
+
+    .control input[type="range"] {
+      padding: 0;
+    }
+
+    .hint {
+      width: min(100%, 1200px);
+      color: #314757;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 980px) {
+      .control-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .dash {
+        grid-template-columns: 144px 1fr;
+      }
+
+      .trim-panel {
+        padding-inline: 10px;
+      }
+
+      .dashboard-core {
+        grid-template-columns: 1fr;
+      }
+
+      .side-stack {
+        grid-template-columns: repeat(3, 1fr);
+        padding-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-shell">
+    <div class="screen-frame">
+      <div class="screen-bezel">
+        <section class="screen splash hidden" id="splashScreen">
+          <div class="splash-inner">
+            <div class="badge">
+              <div class="badge-inner">
+                <div class="tuning-fork">
+                  <div class="fork-line fork-a"></div>
+                  <div class="fork-line fork-b"></div>
+                  <div class="fork-line fork-c"></div>
+                  <div class="fork-line fork-d"></div>
+                  <div class="fork-line fork-e"></div>
+                </div>
+              </div>
+            </div>
+            <div class="brand-block">
+              <h1 class="yamaha-wordmark">YAMAHA</h1>
+              <p class="splash-subtitle">Command Link Dash</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen dash" id="dashScreen">
+          <aside class="panel trim-panel">
+            <div class="trim-title">TRIM</div>
+            <div class="trim-value" id="trimValue">24%</div>
+            <div class="trim-bar-shell" id="trimBarShell">
+              <div class="trim-bar-fill" id="trimBarFill"></div>
+              <div class="trim-secondary-tick" id="trimTick"></div>
+            </div>
+          </aside>
+
+          <main class="panel main-panel">
+            <div class="top-row">
+              <div class="status-chip" id="statusChip">WAITING FOR DATA</div>
+              <div class="source-text" id="sourceText">SOURCE --</div>
+            </div>
+
+            <div class="dashboard-core">
+              <div class="tach-wide">
+                <div class="section-label">RPM</div>
+                <div class="rpm-gauge">
+                  <div class="rpm-scale" id="rpmScale"></div>
+                  <div class="rpm-track-shell">
+                    <div class="rpm-track-fill" id="rpmBarFill"></div>
+                    <div class="rpm-track-redline"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="side-stack">
+                <section class="metric-card volts">
+                  <div class="label">Volts</div>
+                  <div class="value" id="voltsValue">--</div>
+                </section>
+                <section class="metric-card coolant" id="coolantCard">
+                  <div class="label">Coolant</div>
+                  <div class="value" id="tempValue">--</div>
+                </section>
+                <section class="metric-card hours">
+                  <div class="label">Hours</div>
+                  <div class="value" id="hoursValue">--</div>
+                </section>
+              </div>
+
+              <div class="center-stack">
+                <div class="rpm-block">
+                  <div class="rpm-value" id="rpmValue">--</div>
+                  <div class="rpm-unit">REV/MIN</div>
+                </div>
+
+                <div class="fuel-block">
+                  <div class="section-label fuel-label">FUEL FLOW</div>
+                  <div class="fuel-value" id="fuelValue">--.-</div>
+                  <div class="fuel-unit">L/H</div>
+                </div>
+              </div>
+
+              <div class="side-stack">
+                <section class="metric-card network">
+                  <div class="label">PGN Count</div>
+                  <div class="value" id="pgnValue">--</div>
+                </section>
+                <section class="metric-card age">
+                  <div class="label">Msg Age</div>
+                  <div class="value" id="ageValue">--</div>
+                </section>
+                <section class="metric-card source">
+                  <div class="label">Source</div>
+                  <div class="value" id="busSourceValue">--</div>
+                </section>
+              </div>
+            </div>
+          </main>
+        </section>
+      </div>
+    </div>
+
+    <section class="control-panel">
+      <div class="control">
+        <label for="viewMode">View</label>
+        <select id="viewMode">
+          <option value="dash">Dash Only</option>
+          <option value="splash">Splash Only</option>
+          <option value="auto">Auto Splash Then Dash</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="statusMode">Status</label>
+        <select id="statusMode">
+          <option value="good">CAN Active</option>
+          <option value="warn">Waiting For Data</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="rpmInput">RPM</label>
+        <input id="rpmInput" type="range" min="0" max="7000" value="5780">
+      </div>
+      <div class="control">
+        <label for="fuelInput">Fuel L/h</label>
+        <input id="fuelInput" type="range" min="0" max="50" value="21.4" step="0.1">
+      </div>
+      <div class="control">
+        <label for="trimInput">Trim %</label>
+        <input id="trimInput" type="range" min="-5" max="100" value="24" step="1">
+      </div>
+      <div class="control">
+        <label for="trimTickInput">Secondary Tick %</label>
+        <input id="trimTickInput" type="range" min="-5" max="100" value="50" step="1">
+      </div>
+      <div class="control">
+        <label for="voltsInput">Volts</label>
+        <input id="voltsInput" type="number" min="0" max="20" step="0.1" value="13.8">
+      </div>
+      <div class="control">
+        <label for="tempInput">Coolant C</label>
+        <input id="tempInput" type="number" min="-10" max="130" step="0.1" value="71.2">
+      </div>
+      <div class="control">
+        <label for="hoursInput">Hours</label>
+        <input id="hoursInput" type="number" min="0" max="9999" step="0.1" value="77.9">
+      </div>
+      <div class="control">
+        <label for="pgnInput">PGN Count</label>
+        <input id="pgnInput" type="number" min="0" max="64" step="1" value="8">
+      </div>
+      <div class="control">
+        <label for="ageInput">Msg Age ms</label>
+        <input id="ageInput" type="number" min="0" max="5000" step="10" value="84">
+      </div>
+      <div class="control">
+        <label for="sourceInput">Source</label>
+        <input id="sourceInput" type="number" min="0" max="255" step="1" value="1">
+      </div>
+    </section>
+
+    <div class="hint">
+      Open this file directly in a browser. The proportions match the intended 800x480 screen and the controls let you sanity-check sizing before hardware arrives.
+    </div>
+  </div>
+
+  <script>
+    const splashScreen = document.getElementById("splashScreen");
+    const dashScreen = document.getElementById("dashScreen");
+    const viewMode = document.getElementById("viewMode");
+    const statusMode = document.getElementById("statusMode");
+    const rpmInput = document.getElementById("rpmInput");
+    const fuelInput = document.getElementById("fuelInput");
+    const trimInput = document.getElementById("trimInput");
+    const trimTickInput = document.getElementById("trimTickInput");
+    const voltsInput = document.getElementById("voltsInput");
+    const tempInput = document.getElementById("tempInput");
+    const hoursInput = document.getElementById("hoursInput");
+    const pgnInput = document.getElementById("pgnInput");
+    const ageInput = document.getElementById("ageInput");
+    const sourceInput = document.getElementById("sourceInput");
+
+    const rpmValue = document.getElementById("rpmValue");
+    const rpmBarFill = document.getElementById("rpmBarFill");
+    const fuelValue = document.getElementById("fuelValue");
+    const trimValue = document.getElementById("trimValue");
+    const voltsValue = document.getElementById("voltsValue");
+    const tempValue = document.getElementById("tempValue");
+    const coolantCard = document.getElementById("coolantCard");
+    const hoursValue = document.getElementById("hoursValue");
+    const pgnValue = document.getElementById("pgnValue");
+    const ageValue = document.getElementById("ageValue");
+    const busSourceValue = document.getElementById("busSourceValue");
+    const sourceText = document.getElementById("sourceText");
+    const statusChip = document.getElementById("statusChip");
+    const trimBarFill = document.getElementById("trimBarFill");
+    const trimBarShell = document.getElementById("trimBarShell");
+    const trimTick = document.getElementById("trimTick");
+    const rpmScale = document.getElementById("rpmScale");
+
+    const trimStart = -5;
+    const trimEnd = 100;
+    const rpmMin = 0;
+    const rpmMax = 7000;
+    const rpmRedline = 6300;
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function blendRgb(cool, hot, t) {
+      return `rgb(${Math.round(lerp(cool[0], hot[0], t))}, ${Math.round(lerp(cool[1], hot[1], t))}, ${Math.round(lerp(cool[2], hot[2], t))})`;
+    }
+
+    function coolantGradient(temp) {
+      const blueTop = [30, 92, 150];
+      const blueBottom = [10, 34, 53];
+      const orangeTop = [215, 128, 44];
+      const orangeBottom = [74, 34, 18];
+      const redTop = [176, 48, 34];
+      const redBottom = [58, 16, 14];
+      const darkRedTop = [118, 20, 18];
+      const darkRedBottom = [36, 8, 8];
+
+      if (temp <= 60) {
+        const t = clamp((temp - 20) / (60 - 20), 0, 1);
+        return {
+          top: blendRgb(blueTop, orangeTop, t),
+          bottom: blendRgb(blueBottom, orangeBottom, t)
+        };
+      }
+
+      if (temp <= 77) {
+        const t = clamp((temp - 60) / (77 - 60), 0, 1);
+        return {
+          top: blendRgb(orangeTop, redTop, t),
+          bottom: blendRgb(orangeBottom, redBottom, t)
+        };
+      }
+
+      const t = clamp((temp - 77) / (105 - 77), 0, 1);
+      return {
+        top: blendRgb(redTop, darkRedTop, t),
+        bottom: blendRgb(redBottom, darkRedBottom, t)
+      };
+    }
+
+    function buildGaugeTicks() {
+      rpmScale.innerHTML = "";
+      for (let rpm = rpmMin; rpm <= rpmMax; rpm += 200) {
+        const ratio = (rpm - rpmMin) / (rpmMax - rpmMin);
+        const tick = document.createElement("div");
+        const major = rpm % 1000 === 0;
+        tick.className = `rpm-tick${major ? " major" : ""}${rpm >= rpmRedline ? " red" : ""}`;
+        const tickWidth = major ? 3 : 2;
+        tick.style.left = `clamp(0px, calc(${ratio * 100}% - ${tickWidth / 2}px), calc(100% - ${tickWidth}px))`;
+        rpmScale.appendChild(tick);
+
+        if (major) {
+          const label = document.createElement("div");
+          label.className = `rpm-scale-label${rpm >= rpmRedline ? " red" : ""}`;
+          label.textContent = rpm === rpmMax ? "7" : String(rpm / 1000);
+          label.style.left = ratio === 0 ? "0" : ratio === 1 ? "auto" : `${ratio * 100}%`;
+          label.style.right = ratio === 1 ? "0" : "auto";
+          if (ratio > 0 && ratio < 1) {
+            label.style.transform = "translateX(-50%)";
+          }
+          rpmScale.appendChild(label);
+        }
+      }
+    }
+
+    function setView(mode) {
+      if (mode === "splash") {
+        splashScreen.classList.remove("hidden");
+        dashScreen.classList.add("hidden");
+        return;
+      }
+
+      if (mode === "dash") {
+        splashScreen.classList.add("hidden");
+        dashScreen.classList.remove("hidden");
+        return;
+      }
+
+      window.clearTimeout(setView._timer);
+      splashScreen.classList.add("hidden");
+      dashScreen.classList.remove("hidden");
+    }
+
+    function updateTrim() {
+      const trim = Number(trimInput.value);
+      const tick = Number(trimTickInput.value);
+      const range = trimEnd - trimStart;
+      const trimRatio = (clamp(trim, trimStart, trimEnd) - trimStart) / range;
+      const tickRatio = (clamp(tick, trimStart, trimEnd) - trimStart) / range;
+      const barHeight = trimBarShell.clientHeight;
+
+      trimValue.textContent = `${trim}%`;
+      trimBarFill.style.height = `${trimRatio * 100}%`;
+      trimTick.style.bottom = `${tickRatio * barHeight - 2}px`;
+    }
+
+    function updateStatus() {
+      if (statusMode.value === "good") {
+        statusChip.textContent = "CAN ACTIVE";
+        statusChip.style.background = "var(--status-good)";
+        statusChip.style.color = "#102a16";
+      } else {
+        statusChip.textContent = "WAITING FOR DATA";
+        statusChip.style.background = "var(--status-warn)";
+        statusChip.style.color = "#1c242b";
+      }
+    }
+
+    function updateRpmGauge() {
+      const rpm = clamp(Number(rpmInput.value), rpmMin, rpmMax);
+      const ratio = (rpm - rpmMin) / (rpmMax - rpmMin);
+      rpmBarFill.style.width = `${ratio * 100}%`;
+    }
+
+    function updateCoolantCard() {
+      if (statusMode.value !== "good") {
+        coolantCard.style.backgroundImage = "none";
+        coolantCard.style.backgroundColor = "#173a55";
+        return;
+      }
+
+      const temp = Number(tempInput.value);
+      const color = coolantGradient(temp);
+      coolantCard.style.backgroundImage = "none";
+      coolantCard.style.backgroundColor = color.top;
+    }
+
+    function updateValues() {
+      rpmValue.textContent = statusMode.value === "good" ? Math.round(Number(rpmInput.value)).toString() : "--";
+      fuelValue.textContent = statusMode.value === "good" ? Number(fuelInput.value).toFixed(1) : "--.-";
+      voltsValue.textContent = statusMode.value === "good" ? `${Number(voltsInput.value).toFixed(1)} V` : "--";
+      tempValue.textContent = statusMode.value === "good" ? `${Number(tempInput.value).toFixed(1)} C` : "--";
+      hoursValue.textContent = statusMode.value === "good" ? `${Number(hoursInput.value).toFixed(1)} h` : "--";
+      pgnValue.textContent = statusMode.value === "good" ? `${pgnInput.value}` : "--";
+      ageValue.textContent = statusMode.value === "good" ? `${ageInput.value} ms` : "STALE";
+      busSourceValue.textContent = statusMode.value === "good" ? `${sourceInput.value}` : "--";
+      sourceText.textContent = "NORMAL MODE";
+      updateTrim();
+      updateStatus();
+      updateRpmGauge();
+      updateCoolantCard();
+    }
+
+    [
+      viewMode,
+      statusMode,
+      rpmInput,
+      fuelInput,
+      trimInput,
+      trimTickInput,
+      voltsInput,
+      tempInput,
+      hoursInput,
+      pgnInput,
+      ageInput,
+      sourceInput
+    ].forEach((control) => {
+      control.addEventListener("input", () => {
+        if (control === viewMode) {
+          setView(viewMode.value);
+        }
+        updateValues();
+      });
+    });
+
+    buildGaugeTicks();
+    setView(viewMode.value);
+    updateValues();
+    window.addEventListener("resize", updateTrim);
+  </script>
+</body>
+</html>

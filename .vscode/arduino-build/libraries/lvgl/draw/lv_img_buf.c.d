@@ -1,0 +1,34 @@
+C:\Users\copil\Documents\GitHub\YamahaCommandLink\.vscode\arduino-build\libraries\lvgl\draw\lv_img_buf.c.o: \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\draw\lv_img_buf.c \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\draw\lv_img_buf.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_color.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_internal.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_kconfig.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/esp_common/include/esp_attr.h \
+ C:\Users\copil\Documents\GitHub\YamahaCommandLink\commandlinkdash7/lv_conf.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_assert.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_log.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_types.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_mem.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_math.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_area.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\draw\lv_draw_img.h \
+ C:\Users\copil\Documents\Arduino\libraries\lvgl\src\draw\lv_img_decoder.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_internal.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_fs.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_types.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_style.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/font/lv_font.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/lv_conf_internal.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/font/lv_symbol_def.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_area.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_color.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_area.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_anim.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_txt.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_printf.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_bidi.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_style_gen.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_math.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_log.h \
+ C:/Users/copil/Documents/Arduino/libraries/lvgl/src/misc/lv_mem.h

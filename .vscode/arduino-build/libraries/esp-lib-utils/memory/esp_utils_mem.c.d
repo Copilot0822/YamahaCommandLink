@@ -1,0 +1,19 @@
+C:\Users\copil\Documents\GitHub\YamahaCommandLink\.vscode\arduino-build\libraries\esp-lib-utils\memory\esp_utils_mem.c.o: \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src\memory\esp_utils_mem.c \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/heap/include/esp_heap_caps.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/heap/include/multi_heap.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/esp_common/include/esp_err.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/newlib/platform_include/stdio.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/esp_common/include/esp_compiler.h \
+ C:\Users\copil\AppData\Local\Arduino15\packages\esp32\tools\esp32s3-libs\3.3.7/include/esp_common/include/esp_attr.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src/check/esp_utils_check.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src/esp_utils_conf_internal.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src/esp_utils_types.h \
+ C:\Users\copil\Documents\GitHub\YamahaCommandLink\commandlinkdash7/esp_utils_conf.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src/esp_utils_conf_kconfig.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src/esp_utils_versions.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src/log/esp_utils_log.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src/log/impl/esp_utils_log_impl_std.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src\memory\esp_utils_mem.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src\memory\esp_utils_mem_general.h \
+ C:\Users\copil\Documents\Arduino\libraries\esp-lib-utils\src\memory\esp_utils_mem_cxx_global.h

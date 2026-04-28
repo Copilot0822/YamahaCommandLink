@@ -8,11 +8,11 @@
       "args": [
         "compile",
         "--fqbn",
-        "esp32:esp32:esp32",
+        "esp32:esp32:waveshare_esp32_s3_touch_lcd_7:FlashSize=8M,PartitionScheme=huge_app,PSRAM=enabled,CDCOnBoot=cdc",
         "--only-compilation-database",
         "--build-path",
         ".vscode\\arduino-build",
-        "commandlinksniff2"
+        "commandlinkdash7"
       ],
       "problemMatcher": []
     }
