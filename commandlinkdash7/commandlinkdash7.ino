@@ -45,10 +45,11 @@ const lv_color_t kCardAccent = lv_color_hex(0x1D4861);
 struct TrimBarConfig {
   float start_pct = -5.0f;
   float end_pct = 100.0f;
-  float secondary_tick_pct = 50.0f;
+  float secondary_tick_pct = 23.0f;
 };
 
 constexpr TrimBarConfig kTrimBarConfig{};
+constexpr uint32_t kTrackedPGNs[] = {127488UL, 127489UL, 127497UL};
 
 struct EngineState {
   bool seen = false;
@@ -219,6 +220,13 @@ EngineState *activeEngine() {
 
 bool engineFresh(const EngineState *engine, uint32_t now) {
   return engine != nullptr && engine->seen && (now - engine->lastUpdateMs) <= kDataStaleMs;
+}
+
+void printTrackedPGNs() {
+  Serial.println("Tracked PGNs:");
+  Serial.println("  127488 - Engine Parameters, Rapid Update");
+  Serial.println("  127489 - Engine Parameters, Dynamic");
+  Serial.println("  127497 - Trip Parameters, Engine");
 }
 
 void setLabelText(lv_obj_t *label, const char *text) {
@@ -825,13 +833,13 @@ void HandleNMEA2000Msg(const tN2kMsg &msg) {
   }
 
   switch (msg.PGN) {
-    case 127488UL:
+    case kTrackedPGNs[0]:
       handleEngineRapid(msg);
       break;
-    case 127489UL:
+    case kTrackedPGNs[1]:
       handleEngineDynamic(msg);
       break;
-    case 127497UL:
+    case kTrackedPGNs[2]:
       handleTripFuel(msg);
       break;
     default:
@@ -907,6 +915,7 @@ void setup() {
 
   initDisplay();
   initCan();
+  printTrackedPGNs();
 
   g_boot_ms = millis();
   g_last_ui_ms = 0;
